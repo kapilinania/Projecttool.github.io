@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Image Resizer</title>
+  <style>
+    body {
+  text-align: center;
+  margin-top: 50px;
+}
+
+h1 {
+  color: #333;
+}
+
+input[type="file"] {
+  margin: 20px;
+}
+
+input[type="number"] {
+  width: 60px;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 18px;
+}
+
+canvas {
+  border: 1px solid #333;
+}
+
+  </style>
+</head>
+<body>
+  <h1>Image Resizer</h1>
+  <input type="file" id="fileInput" accept="image/*">
+  <div>
+    <label for="widthInput">Width:</label>
+    <input type="number" id="widthInput">
+  </div>
+  <div>
+    <label for="heightInput">Height:</label>
+    <input type="number" id="heightInput">
+  </div>
+  <button onclick="resizeImage()">Resize</button>
+  <canvas id="canvas"></canvas>
+
+  <script>
+    const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+
+function resizeImage() {
+  const fileInput = document.getElementById('fileInput');
+  const file = fileInput.files[0];
+  const widthInput = document.getElementById('widthInput');
+  const heightInput = document.getElementById('heightInput');
+  const newWidth = parseInt(widthInput.value);
+  const newHeight = parseInt(heightInput.value);
+
+  if (file.type.startsWith('image/')) {
+    const reader = new FileReader();
+    reader.onload = function (event) {
+      const img = new Image();
+      img.onload = function () {
+        canvas.width = newWidth;
+        canvas.height = newHeight;
+        ctx.drawImage(img, 0, 0, newWidth, newHeight);
+      };
+      img.src = event.target.result;
+    };
+    reader.readAsDataURL(file);
+  } else {
+    alert('Please select an image file.');
+  }
+}
+
+  </script>
+</body>
+</html>
