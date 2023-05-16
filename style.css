@@ -2,26 +2,56 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: sans-serif;
 }
-
-.container {
-
-    width: 50%;
-    display: grid;
-    grid-template-columns: repeat(5, 100px);
-    grid-template-rows: repeat(5, 100px);
-    margin: 100px 500px;
-
+.container1{
+    width: 90%;
+    border:0px solid red;
+    margin: auto;
+    padding: 10px;
 }
-
-.box {
-    border: 1px solid;
+.head_jpg{
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    border: 1px solid red;
 }
+h1 {
+    color: #333;
+  }
 
-.container div:nth-child(even) {
-    background-color: black;
-}
+  /* -------jpg to png code is here------------- */
+  
+ .jpgtopng input[type="file"] {
+    margin: 20px;
+  }
+  .jpgtopng button{
+    padding: 10px 20px;
+     font-size: 18px;
+     border-radius: 10px;
+  }
+  .jpgtopng button:hover{
+    background-color: red;
+    color: white;
+    border:none;
+  }
+  /* -------jpg to pdf code is closed here-------------*/
 
-.container div:nth-child(odd) {
-    background-color: white;
-}
+  /* --------image to pdf code is here --------------- */ 
+  input[type="file"] {
+    margin: 20px;
+  }
+  
+  button {
+    padding: 10px 20px;
+    font-size: 18px;
+  }
+  #resultContainer {
+    margin-top: 20px;
+    display: none;
+  }
+  
+  #resultContainer img {
+    max-width: 500px;
+  }
+
+  /* ------------image to pdf code is closed ------------ */
+  
