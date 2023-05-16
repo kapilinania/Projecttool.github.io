@@ -1,0 +1,27 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container {
+
+    width: 50%;
+    display: grid;
+    grid-template-columns: repeat(5, 100px);
+    grid-template-rows: repeat(5, 100px);
+    margin: 100px 500px;
+
+}
+
+.box {
+    border: 1px solid;
+}
+
+.container div:nth-child(even) {
+    background-color: black;
+}
+
+.container div:nth-child(odd) {
+    background-color: white;
+}
