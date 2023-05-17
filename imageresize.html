@@ -4,75 +4,85 @@
   <title>Image Resizer</title>
   <style>
     body {
-  text-align: center;
-  margin-top: 50px;
-}
-
-h1 {
-  color: #333;
-}
-
-input[type="file"] {
+  font-family: Arial, sans-serif;
   margin: 20px;
 }
 
-input[type="number"] {
-  width: 60px;
+h1 {
+  text-align: center;
 }
 
-button {
-  padding: 10px 20px;
-  font-size: 18px;
+input, button {
+  display: block;
+  margin-bottom: 10px;
 }
 
 canvas {
-  border: 1px solid #333;
+  display: block;
+  margin: 20px auto;
+  border: 1px solid #ccc;
 }
 
   </style>
 </head>
 <body>
   <h1>Image Resizer</h1>
-  <input type="file" id="fileInput" accept="image/*">
+  <input type="file" id="imageInput">
   <div>
-    <label for="widthInput">Width:</label>
+    <label for="widthInput">Width (pixels):</label>
     <input type="number" id="widthInput">
   </div>
   <div>
-    <label for="heightInput">Height:</label>
+    <label for="heightInput">Height (pixels):</label>
     <input type="number" id="heightInput">
   </div>
-  <button onclick="resizeImage()">Resize</button>
+  <div>
+    <label for="sizeInput">Size (KB):</label>
+    <input type="number" id="sizeInput">
+  </div>
+  <button id="resizeButton">Resize</button>
+  <a href="#" id="downloadLink" download></a>
   <canvas id="canvas"></canvas>
 
   <script>
-    const canvas = document.getElementById('canvas');
-const ctx = canvas.getContext('2d');
+    document.getElementById('resizeButton').addEventListener('click', function() {
+  var width = parseInt(document.getElementById('widthInput').value);
+  var height = parseInt(document.getElementById('heightInput').value);
+  var targetSizeKB = parseInt(document.getElementById('sizeInput').value);
 
-function resizeImage() {
-  const fileInput = document.getElementById('fileInput');
-  const file = fileInput.files[0];
-  const widthInput = document.getElementById('widthInput');
-  const heightInput = document.getElementById('heightInput');
-  const newWidth = parseInt(widthInput.value);
-  const newHeight = parseInt(heightInput.value);
+  var input = document.getElementById('imageInput');
+  var file = input.files[0];
+  var reader = new FileReader();
 
-  if (file.type.startsWith('image/')) {
-    const reader = new FileReader();
-    reader.onload = function (event) {
-      const img = new Image();
-      img.onload = function () {
-        canvas.width = newWidth;
-        canvas.height = newHeight;
-        ctx.drawImage(img, 0, 0, newWidth, newHeight);
-      };
-      img.src = event.target.result;
+  reader.onload = function(e) {
+    var img = new Image();
+    img.onload = function() {
+      var canvas = document.getElementById('canvas');
+      var ctx = canvas.getContext('2d');
+      canvas.width = width;
+      canvas.height = height;
+      ctx.drawImage(img, 0, 0, width, height);
+
+      var quality = 1.0;
+      var resizedDataURL = canvas.toDataURL('image/jpeg', quality);
+      var currentSizeKB = Math.round(resizedDataURL.length / 1024);
+
+      while (currentSizeKB > targetSizeKB && quality > 0) {
+        quality -= 0.1;
+        resizedDataURL = canvas.toDataURL('image/jpeg', quality);
+        currentSizeKB = Math.round(resizedDataURL.length / 1024);
+      }
+
+      // Create a download link for the resized image
+      var downloadLink = document.getElementById('downloadLink');
+      downloadLink.href = resizedDataURL;
+      downloadLink.innerHTML = 'Download Resized Image';
     };
-    reader.readAsDataURL(file);
-  } else {
-    alert('Please select an image file.');
-  }
-}
+    img.src = e.target.result;
+  };
+
+  reader.readAsDataURL(file);
+});
 
   </script>
 </body>

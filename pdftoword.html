@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>PDF to Word Converter</title>
+  <style>
+    body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+}
+
+h1 {
+  text-align: center;
+}
+
+input, button {
+  display: block;
+  margin-bottom: 10px;
+}
+
+  </style>
+</head>
+<body>
+  <h1>PDF to Word Converter</h1>
+  <input type="file" id="pdfInput">
+  <button id="convertButton">Convert to Word</button>
+  <a href="#" id="downloadLink" download></a>
+
+ <script>
+  document.getElementById('convertButton').addEventListener('click', function() {
+  var input = document.getElementById('pdfInput');
+  var file = input.files[0];
+  
+  if (file.type === 'application/pdf') {
+    alert('PDF to Word conversion is not supported in this example.');
+  } else {
+    alert('Please select a PDF file.');
+  }
+});
+
+ </script>
+</body>
+</html>
